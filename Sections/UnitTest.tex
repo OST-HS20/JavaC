@@ -1,0 +1,21 @@
+\section{Testen}
+Ofte werden für UnitTests Äuivalenzklassen gebildet welche Parameter in Bereich zerlegen, die von der Funktion wahrscheinlich gleich behandelt werden. Für jeden Bereich eine Eingangsvariable wählen und Testfall schreiben.
+
+\subsection{JUnit Framework}
+Die Testmethoden in JUnit haben keine Parameter und immer den Rückgabetype void. Sie sind mit der Annotation \textit{org.junit.jupiter.api.\textbf{@Test}} deklariert.
+
+\begin{lstlisting}
+@Test
+void testMethod() {
+	int negativeValue = -1;
+	assertEquals(1, abs(negativeValue));	
+}
+\end{lstlisting}
+
+Wichtige Asserts:
+\begin{itemize}[nosep]
+	\item assertEquals(expected, actual)
+	\item assertEquals(expected, actual, delta)
+	\item assertArrayEquals(expected, actual)
+	\item assertTrue(actual)
+\end{itemize}

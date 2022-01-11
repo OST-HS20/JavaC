@@ -1,0 +1,54 @@
+\section{IO}
+Grundsätzlich werden IO-Streams mit Byte Stream \textit{InputStram, OutputStream} mit zB \textit{FileInputStream, FileOutputStream} erzeugt. Für UTF-16 können konkret die \textit{Reader, Writer} für Zeichen-/Zeilenweise Ein-\& Ausgabe verwerndet werden.
+
+\noindent Java bietet auch direkten Daten-Zugriff durch die statische Klasse Files an. \textbf{Achtung:} Benötigen IOException!
+\begin{itemize}[nosep]
+	\item Files.readAllBytes(Path.of(str))
+	\item Files.write(Path.of(str), data)
+	\item Files.readAllLines(Path.of(str), StandardCharsets.UTF\_8) : List[String]
+	\item Files.lines(Path.of(str), StandardCharsets.UTF\_8) : Stream[String]
+	\item Files.write(Path.of(str), lines, StandardCharsets.UTF\_8)
+\end{itemize}
+
+\subsection{Stream}
+Jeder Stream muss wieder geschlossen werden, ansonsten muss mit Datenverlust gerechnet werden.
+\begin{lstlisting}
+try (var in = new FileInputStream(path)) {
+	int c = in.read();
+	while (c >= 0) {
+		byte b  = (byte)c;
+		
+		c = in.read();
+	}
+}
+\end{lstlisting}
+
+\subsubsection{Standard Input/Output}
+Folgende Standard Streams werden verwendet um standardmässig auf die Konsole zu Schreiben.
+\begin{itemize}[nosep]
+	\item System.in
+	\item System.out
+	\item System.err
+\end{itemize}
+
+\subsection{Reader/Writer}
+In Java ist der char-Type ein 16Bit (UTF-16) kodierung. Hier einige Beispiele:
+\begin{lstlisting}
+	try (var in = new FileReader(path)) {
+		int c = in.read();
+		while (c >= 0) {
+			char b  = (char)c;
+			
+			c = in.read();
+		}
+	}
+\end{lstlisting}
+
+\begin{lstlisting}
+	try (var writer = new FileWriter(path, append)) {
+		writer.write("Hallo!");
+		wirter.write('\n');
+	}
+\end{lstlisting}
+
+\noindent Für \textbf{Buffered}Reader-/ Writer ist es wichtig, \textit{flush()} aufzurufen. Dies erzwingt den Reader/-Writer alle gepufferten Werte sofort zu Schreiben bzw. Lesen. \textit{close()} ruft impliziet \textit{flush()} auf. Dies wird für Performance-Gründen eingesetzt.
